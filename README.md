@@ -17,5 +17,5 @@ Controle de ponto digital com QR Code e agenda personalizada, usando React + Sup
 
 ## Como rodar
 
-npm install
-npm start
+- npm install
+- npm start
