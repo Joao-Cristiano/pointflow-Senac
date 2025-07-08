@@ -11,6 +11,10 @@
 # production
 /build
 
+# arquivo do banco
+src/supabaseClient.js
+
+
 # misc
 .DS_Store
 .env.local
