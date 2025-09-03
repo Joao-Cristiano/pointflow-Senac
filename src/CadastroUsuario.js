@@ -31,19 +31,23 @@ function CadastroUsuario() {
   }
 
   return (
-    <form onSubmit={cadastrar} style={{ maxWidth: 400, margin: "24px auto", padding: 20, borderRadius: 10, background: "#23293a" }}>
-      <h3 style={{ color: "#fff" }}>Cadastro de Usuário</h3>
-      <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} required style={{ width: "100%", marginBottom: 8 }} />
-      <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} style={{ width: "100%", marginBottom: 8 }} />
-      <button type="submit" style={{ width: "100%", padding: 8, background: "#17408c", color: "#fff", border: "none", borderRadius: 6, fontWeight: 700 }}>Cadastrar</button>
-      {idUsuario && (
-        <div style={{ marginTop: 16, color: "#1cfc92", fontWeight: 700 }}>
-          <div>ID do usuário: <span style={{ fontFamily: "monospace", fontSize: "1.2em" }}>{idUsuario}</span></div>
-          <div style={{ color: "#f9b233", fontSize: "0.9em" }}>Este ID deve ser transformado em QR Code para o crachá!</div>
-        </div>
-      )}
-      <div style={{ color: "#f9b233", marginTop: 8 }}>{mensagem}</div>
-    </form>
+    <div className="card center" style={{ maxWidth: 640, margin: '40px auto' }}>
+      <form onSubmit={cadastrar} className="form-card">
+        <h3>Cadastro de Usuário</h3>
+        <label>Nome</label>
+        <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} required />
+        <label>Email (opcional)</label>
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <button type="submit" className="btn btn-primary">Cadastrar</button>
+        {idUsuario && (
+          <div style={{ marginTop: 12, color: 'var(--accent)', fontWeight: 700 }}>
+            <div>ID do usuário: <span style={{ fontFamily: "monospace", fontSize: "1.05em" }}>{idUsuario}</span></div>
+            <div style={{ color: 'var(--senac-yellow)', fontSize: "0.9em" }}>Este ID deve ser transformado em QR Code para o crachá!</div>
+          </div>
+        )}
+        <div style={{ color: 'var(--senac-yellow)', marginTop: 8 }}>{mensagem}</div>
+      </form>
+    </div>
   );
 }
 

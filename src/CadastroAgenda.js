@@ -30,18 +30,30 @@ function CadastroAgenda() {
   }
 
   return (
-    <form onSubmit={cadastrar} style={{ maxWidth: 400, margin: "24px auto", padding: 20, borderRadius: 10, background: "#23293a" }}>
-      <h3 style={{ color: "#fff" }}>Adicionar Evento na Agenda</h3>
-      <select value={usuarioId} onChange={e => setUsuarioId(e.target.value)} required style={{ width: "100%", marginBottom: 8 }}>
-        <option value="">Selecione o usuário</option>
-        {usuarios.map(u => <option key={u.id} value={u.id}>{u.nome} ({u.id})</option>)}
-      </select>
-      <input type="date" value={data} onChange={e => setData(e.target.value)} required style={{ width: "100%", marginBottom: 8 }} />
-      <input type="time" value={hora} onChange={e => setHora(e.target.value)} required style={{ width: "100%", marginBottom: 8 }} />
-      <input type="text" placeholder="Descrição" value={descricao} onChange={e => setDescricao(e.target.value)} required style={{ width: "100%", marginBottom: 8 }} />
-      <button type="submit" style={{ width: "100%", padding: 8, background: "#17408c", color: "#fff", border: "none", borderRadius: 6, fontWeight: 700 }}>Cadastrar Evento</button>
-      <div style={{ color: "#f9b233", marginTop: 8 }}>{mensagem}</div>
-    </form>
+    <div className="card center" style={{ maxWidth: 720, margin: '28px auto' }}>
+      <form onSubmit={cadastrar} className="form-card">
+        <h3>Adicionar Evento na Agenda</h3>
+        <label>Usuário</label>
+        <select value={usuarioId} onChange={e => setUsuarioId(e.target.value)} required>
+          <option value="">Selecione o usuário</option>
+          {usuarios.map(u => <option key={u.id} value={u.id}>{u.nome} ({u.id})</option>)}
+        </select>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <div style={{ flex: 1 }}>
+            <label>Data</label>
+            <input type="date" value={data} onChange={e => setData(e.target.value)} required />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label>Hora</label>
+            <input type="time" value={hora} onChange={e => setHora(e.target.value)} required />
+          </div>
+        </div>
+        <label>Descrição</label>
+        <input type="text" placeholder="Descrição" value={descricao} onChange={e => setDescricao(e.target.value)} required />
+        <button type="submit" className="btn btn-primary">Cadastrar Evento</button>
+        <div style={{ color: 'var(--senac-yellow)', marginTop: 8 }}>{mensagem}</div>
+      </form>
+    </div>
   );
 }
 
