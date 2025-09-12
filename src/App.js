@@ -6,32 +6,46 @@ import CadastroAgenda from "./CadastroAgenda";
 
 function App() {
   const [tela, setTela] = useState("pointflow");
+  const [screenState, setScreenState] = useState('in'); // 'in' | 'out'
+
+  function navigateTo(next) {
+    if (next === tela) return;
+    setScreenState('out');
+    setTimeout(() => {
+      setTela(next);
+      setScreenState('in');
+    }, 220);
+  }
 
   return (
     <div className="main-container">
       <div className="navbar card">
         <div className="brand"><img src={require('./logo-senac.png')} alt="Senac" /><h1>PointFlow</h1></div>
         <div className="nav-links">
-          <button className="btn btn-ghost" onClick={() => setTela('pointflow')}>Registrar Ponto</button>
-          <button className="btn btn-ghost" onClick={() => setTela('cadastro')}>Usuários</button>
-          <button className="btn btn-ghost" onClick={() => setTela('agenda')}>Agenda</button>
+          <button className="btn btn-ghost" onClick={() => navigateTo('pointflow')}>Registrar Ponto</button>
+          <button className="btn btn-ghost" onClick={() => navigateTo('cadastro')}>Usuários</button>
+          <button className="btn btn-ghost" onClick={() => navigateTo('agenda')}>Agenda</button>
         </div>
       </div>
       {tela === "pointflow" && (
-        <div className="page-wrapper">
+        <div className={`page-wrapper ${screenState === 'in' ? 'fade-in' : 'fade-out'}`}>
           <div className="center-card">
             <PointFlow />
           </div>
         </div>
       )}
       {tela === "cadastro" && (
-        <div>
-          <CadastroUsuario />
+        <div className={`page-wrapper ${screenState === 'in' ? 'fade-in' : 'fade-out'}`}>
+          <div className="center-card">
+            <CadastroUsuario />
+          </div>
         </div>
       )}
       {tela === "agenda" && (
-        <div>
-          <CadastroAgenda />
+        <div className={`page-wrapper ${screenState === 'in' ? 'fade-in' : 'fade-out'}`}>
+          <div className="center-card">
+            <CadastroAgenda />
+          </div>
         </div>
       )}
     </div>

@@ -38,20 +38,23 @@ function CadastroAgenda() {
           <option value="">Selecione o usuário</option>
           {usuarios.map(u => <option key={u.id} value={u.id}>{u.nome} ({u.id})</option>)}
         </select>
-        <div style={{ display: 'flex', gap: 12 }}>
-          <div style={{ flex: 1 }}>
+
+        <div className="two-cols">
+          <div className="col">
             <label>Data</label>
             <input type="date" value={data} onChange={e => setData(e.target.value)} required />
           </div>
-          <div style={{ flex: 1 }}>
+          <div className="col">
             <label>Hora</label>
             <input type="time" value={hora} onChange={e => setHora(e.target.value)} required />
           </div>
         </div>
+
         <label>Descrição</label>
         <input type="text" placeholder="Descrição" value={descricao} onChange={e => setDescricao(e.target.value)} required />
+
         <button type="submit" className="btn btn-primary">Cadastrar Evento</button>
-        <div style={{ color: 'var(--senac-yellow)', marginTop: 8 }}>{mensagem}</div>
+        <div className="form-message">{mensagem}</div>
       </form>
     </div>
   );

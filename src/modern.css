@@ -19,6 +19,7 @@ body {
   color: var(--text-light);
   margin: 0;
   padding: 0;
+  overflow: hidden; /* visually remove main scrollbar */
 }
 
 .main-container {
@@ -37,6 +38,9 @@ body {
 .card.center {
   display: flex;
   flex-direction: column;
+
+/* Utility: remove card border/shadow for special pages */
+.card.no-shadow { box-shadow: none !important; border: none !important; }
   gap: 18px;
   align-items: center;
 }
@@ -54,7 +58,7 @@ body {
   align-items: center;
   gap: 12px;
 }
-.brand img { height: 48px; }
+.brand img { height: 48px; border-radius: 6px; transition: transform 160ms ease; }
 .brand h1 { margin: 0; font-size: 1.4rem; letter-spacing: .06em; }
 
 .menu {
@@ -195,4 +199,12 @@ input:focus, select:focus, textarea:focus {
 
 /* Center page main area */
 .page-wrapper { display:flex; align-items:center; justify-content:center; min-height: calc(100vh - 140px); padding-top: 80px; }
-.center-card { width:100%; max-width:760px; }
+.center-card { width:100%; max-width:760px; max-height: calc(100vh - 200px); -webkit-overflow-scrolling: touch; }
+
+/* Hide default scrollbar but allow inner scrolling */
+body::-webkit-scrollbar { width: 0; height: 0; }
+body { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Fade states for transitions (no fixed min-height here) */
+.fade-in { opacity: 1; transform: translateY(0); transition: opacity 260ms ease, transform 260ms ease; }
+.fade-out { opacity: 0; transform: translateY(8px); transition: opacity 260ms ease, transform 260ms ease; pointer-events: none; }

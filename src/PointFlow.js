@@ -6,7 +6,6 @@ import senacLogo from "./logo-senac.png";
 const bgAnim = {
   position: "fixed",
   top: 0, left: 0, width: "100vw", height: "100vh",
-  background: "linear-gradient(120deg,#141e30 0%,#17408c 50%,#f9b233 100%)",
   zIndex: -1,
   animation: "movebg 10s ease-in-out infinite alternate"
 };
@@ -184,8 +183,8 @@ function PointFlow() {
   return (
     <div className="main-container">
       <div style={bgAnim}></div>
-      <div className={fade === "in" ? "fade-in" : "fade-out"} style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="card" style={{ width: '100%', maxWidth: 640, margin: '40px auto' }}>
+  <div className={fade === "in" ? "fade-in" : "fade-out"} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="card no-shadow" style={{ width: '100%', maxWidth: 640 }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
             <img src={senacLogo} alt="Senac" style={{ height: 48, filter: 'drop-shadow(0 0 10px #f9b233cc) brightness(1.1)' }} />
           </div>
