@@ -54,12 +54,13 @@ async function buscarAgendaUsuario(usuarioId, data) {
 
 function PointFlow() {
   const [atividades, setAtividades] = useState([]);
-  const [showScanner, setShowScanner] = useState(false);
+  const [showScanner, setShowScanner] = useState(true);
   const [mensagem, setMensagem] = useState("");
   const [tipoPonto, setTipoPonto] = useState("");
   const [fade, setFade] = useState("in");
   const html5QrCodeRef = useRef(null);
   const timeoutRef = useRef(null);
+  const lastScannedRef = useRef({ value: null, time: 0 });
   const agendaTimeoutRef = useRef(null);
 
   async function buscarAtividades(qrCodeMessage) {
@@ -86,16 +87,7 @@ function PointFlow() {
     await registrarPonto(usuarioId, proximoTipo);
   }
 
-  function iniciarScanner() {
-    setFade("out");
-    setTimeout(() => {
-      setShowScanner(true);
-      setMensagem("");
-      setAtividades([]);
-      setTipoPonto("");
-      setFade("in");
-    }, 300);
-  }
+  // Scanner agora inicia automaticamente ao montar o componente.
 
   async function destroyScanner() {
     if (timeoutRef.current) {
@@ -119,13 +111,13 @@ function PointFlow() {
           { facingMode: "environment" },
           { fps: 10, qrbox: 220 },
           async qrCodeMessage => {
-            if (timeoutRef.current) {
-              clearTimeout(timeoutRef.current);
-              timeoutRef.current = null;
+            const now = Date.now();
+            if (lastScannedRef.current.value === qrCodeMessage && (now - lastScannedRef.current.time) < 2000) {
+              // ignore rapid duplicate reads
+              return;
             }
-            await destroyScanner();
-            setShowScanner(false);
-            setFade("in");
+            lastScannedRef.current = { value: qrCodeMessage, time: now };
+            // keep scanner running; just process the code
             buscarAtividades(qrCodeMessage);
           },
           errorMessage => {}
@@ -136,13 +128,6 @@ function PointFlow() {
           setShowScanner(false);
           setFade("in");
         });
-
-      timeoutRef.current = setTimeout(async () => {
-        await destroyScanner();
-        setShowScanner(false);
-        setFade("in");
-        setMensagem("Tempo esgotado. Por favor, tente novamente.");
-      }, 10000);
 
       return () => { destroyScanner(); };
     } else { destroyScanner(); }
@@ -191,10 +176,9 @@ function PointFlow() {
           <h2 style={{ textAlign: 'center', marginBottom: 10 }}>PointFlow</h2>
           <div style={{ textAlign: 'center', color: 'var(--senac-yellow)', fontWeight: 700, marginBottom: showScanner ? 20 : 8 }}>Controle de Ponto Inteligente Senac</div>
 
-          {!showScanner && atividades.length === 0 && (
-            <div>
-              <button className="btn btn-primary" style={{ padding: '16px 0', fontSize: '1.05em' }} onClick={iniciarScanner}>Registrar Entrada/Saída</button>
-              {mensagem && <div style={{ color: 'var(--senac-yellow)', textAlign: 'center', marginTop: 12 }}>{mensagem}</div>}
+          {mensagem && !showScanner && atividades.length === 0 && (
+            <div style={{ textAlign: 'center', marginTop: 12 }}>
+              <div style={{ color: 'var(--senac-yellow)' }}>{mensagem}</div>
             </div>
           )}
 
